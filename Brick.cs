@@ -25,9 +25,15 @@ namespace BreakoutGameLab001
             Color = color;
         }
 
+        
+
         // 加入其他方法
 
         // 繪製磚塊
-
+        internal void Draw(Graphics gr)
+        {
+            gr.FillRectangle(new SolidBrush(Color.White), X, Y, Width, Height);
+            gr.DrawRectangle(new Pen(Color.Black, 1), X, Y, Width, Height);
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace BreakoutGameLab001
+﻿
+
+
+namespace BreakoutGameLab001
 {
     // 擋板類別
     class Paddle
@@ -23,7 +26,24 @@
         // 加入其他方法
 
         // 繪製擋板
-
+        internal void Draw(Graphics gr)
+        {
+            gr.FillRectangle(new SolidBrush(Color.Black), X, Y, Width, Height);
+        }
         // TODO: 左右移動擋板
+        internal void MoveLeft()
+        {
+            if (X - Width / 2 >= 0) 
+            {
+                X -= 100;
+            }
+        }
+        internal void MoveRight()
+        {
+            if (X + Width / 2 <= 1048)
+            {
+                X += 100;
+            }
+        }
     }
 }
