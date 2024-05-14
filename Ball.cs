@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using Timer = System.Windows.Forms.Timer;
 
 namespace BreakoutGameLab001
 {
@@ -32,12 +33,16 @@ namespace BreakoutGameLab001
         // 加入其他方法
 
         // TODO - 繪製球
-
+        internal void Draw(Graphics gr)
+        {
+            gr.FillEllipse(new SolidBrush(Color.Red), X - Radius, Y - Radius, Radius * 2, Radius * 2);
+        }
         // 移動球
         public void Move(int Width, int Height)
         {
             // TODO - 根據速度更新球的位置
-
+            X += VelocityX;
+            Y += VelocityY;
             //
             // 水平方向: 檢查球是否碰到牆壁
             if (X - Radius <= 0)
@@ -52,9 +57,18 @@ namespace BreakoutGameLab001
             }
 
             // TODO: 垂直方向: 檢查球是否碰到牆壁? 下方牆壁==>遊戲結束!
-
+            if (Y - Radius <= 77)
+            {
+                VelocityY = -VelocityY;
+                Y = 77 + Radius;
+            }
+            else if (Y + Radius >= Height)
+            {
+                Y = Height - Radius;
+                BrickGamePanel internalInstance = new BrickGamePanel(1130,624);
+                internalInstance.GameOver();
+            }
         }
-
         // 檢查碰撞事件 : 球是否與任一磚塊或擋板發生碰撞
         public void CheckCollision(Paddle paddle, Brick[,] bricks)
         {
@@ -97,6 +111,14 @@ namespace BreakoutGameLab001
                     Y = paddle.Y - Radius - 1;
                 else if (Y > paddle.Y + paddle.Height)
                     Y = paddle.Y + paddle.Height + Radius + 1;
+                else if (Y > paddle.Y && Y < paddle.Y + paddle.Height && X < paddle.X) 
+                {
+                    X = X - Radius - 1;
+                }
+                else if (Y > paddle.Y && Y < paddle.Y + paddle.Height && X > paddle.X)
+                {
+                    X = X + Radius + 1;
+                }
             }
         }
     }
